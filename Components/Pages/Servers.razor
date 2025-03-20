@@ -1,9 +1,10 @@
 ﻿@page "/servers"
-
+@inject NavigationManager _NavigationManager;
 
 <h3>Servers</h3>
 
 <br />
+<a href="/servers/add" class="btn btn-link">Add Server</a>
 <br />
 <div class="container-fluid text-center">
     <div class="row w-50">
@@ -30,7 +31,12 @@
                 @(sr.IsOnline ? "online" : "offline")
             </span>
             &nbsp;
-            <a href="/servers/edit" class="btn btn-link">Edit</a>
+            <a href="/servers/@sr.Id" class="btn btn-link">Edit</a>
+            &nbsp;
+            <EditForm Model="sr" FormName="@($"{sr.Id}")" OnValidSubmit="@(() => { DeleteServer(@sr.Id); })">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </EditForm>
+           
         </li>
     }
 </ul>
@@ -38,4 +44,15 @@
 
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
     private List<string> cities = CitiesRepository.GetCities();
+
+
+    private void DeleteServer(int id)
+    {
+        if (id!=0)
+        {
+            ServersRepository.DeleteServer(id);
+            _NavigationManager.Refresh();
+        }
+
+    }
 }
