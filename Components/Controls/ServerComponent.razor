@@ -1,12 +1,21 @@
 ﻿
-<div style="color:@(server.IsOnline?"green":"red") ">
-    @server.Name in the @server.City @(server.IsOnline?"online":"offline")
-</div>
-<br/>
-<div style="color:@(server.IsOnline?"green":"red") ">
-    @server.Name in the @server.City @(server.IsOnline ? "online" : "offline")
-</div>
+@if(server!=null)
+{
+   
+        <div style="color: @(server.IsOnline ? "green" : "red")">
+            @server.Name in the @server.City @(server.IsOnline ? "online" : "offline")
+        </div>
+        <br/>
+        <button class="btn btn-primary" type="button" @onclick="Changestatus">Turn On/Off</button>
+    
+}
 @code {
-    private Server server = new Server{Name = "S1",City = "Neghab"};
+    
+    private Server? server { get; set; } = new Server{Name = "S1",City = "Neghab"};
+
+    private void Changestatus()
+    {
+        this.server.IsOnline = !server.IsOnline;
+    }
 
 }
