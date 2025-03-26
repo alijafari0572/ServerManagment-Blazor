@@ -1,0 +1,23 @@
+﻿@inject NavigationManager _NavigationManager;
+
+
+@if (servers != null && this.servers.Count>0)
+{
+    <ul>
+        @foreach (var sr in servers)
+        {
+                <ServerComponent @rendermode="InteractiveServer"  sr="sr"></ServerComponent>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public string? CityName { get; set; }
+    private List<Server>? servers; 
+
+   protected override void OnParametersSet()
+    {
+        servers = ServersRepository.GetServersByCity(CityName?? "Toronto");
+   }
+}

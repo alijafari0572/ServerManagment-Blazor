@@ -1,6 +1,6 @@
 ﻿@page "/servers"
 @rendermode InteractiveServer
-@inject NavigationManager _NavigationManager;
+
 
 <h3>Servers</h3>
 
@@ -30,53 +30,28 @@
     <button class="btn btn-outline-primary" type="button" id="button-search" @onclick="HandelSearch"> Search </button>
 </div>
 <br />
-<ul>
-    @foreach (var sr in servers)
-    {
-        <li>
-            @sr.Name in @sr.City is
-            <span style="color:@((sr.IsOnline ? "green":"red"))">
-                @(sr.IsOnline ? "online" : "offline")
-            </span>
-            &nbsp;
-            <a href="/servers/@sr.Id" class="btn btn-link">Edit</a>
-            &nbsp;
-            <EditForm Model="sr" FormName="@($"{sr.Id}")" OnValidSubmit="@(() => { DeleteServer(@sr.Id); })">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </EditForm>
-           
-        </li>
-    }
-</ul>
+<ServerListComponent @rendermode="InteractiveServer" CityName="@selecterCity"></ServerListComponent>
+
 @serverFilter
 @code {
 
-    private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
     private List<string> cities = CitiesRepository.GetCities();
     private string selecterCity = "Toronto";
     private string serverFilter = "";
  
-    private void DeleteServer(int id)
-    {
-        if (id!=0)
-        {
-            ServersRepository.DeleteServer(id);
-            _NavigationManager.Refresh();
-        }
-
-    }
+   
 
     private void SelectCity(string city)
     {
         this.selecterCity = city;
-        this.servers = ServersRepository.GetServersByCity(selecterCity);
+        //this.servers = ServersRepository.GetServersByCity(selecterCity);
     }
 
    
 
     private void HandelSearch()
     {
-        this.servers = ServersRepository.SearchServers(serverFilter);
+        //this.servers = ServersRepository.SearchServers(serverFilter);
         this.selecterCity = string.Empty;
     }
 }
