@@ -7,10 +7,10 @@
 <br />
 <a href="/servers/add" class="btn btn-link">Add Server</a>
 <br />
-<CityListComponent SelectCityCallBack="HandelSelectCity"></CityListComponent>
+<CityListComponent @ref="cityListComponent" SelectCityCallBack="HandelSelectCity"></CityListComponent>
 
 <br />
-<SearchBarComponent searchServerCallBack="HandelSearchServer"></SearchBarComponent>
+<SearchBarComponent @ref="searchBarComponent" searchServerCallBack="HandelSearchServer"></SearchBarComponent>
 <br />
 <ServerListComponent @rendermode="InteractiveServer" CityName="@selectedCity" serverFilter="@serverFilter"></ServerListComponent>
 
@@ -19,16 +19,20 @@
     private string selectedCity = "Toronto";
     [Parameter]
     public string serverFilter { get; set; } = "";
-   
+
+    private CityListComponent? cityListComponent;
+    private SearchBarComponent? searchBarComponent;
 
     private void HandelSelectCity(string cityname)
     {
         selectedCity = cityname;
         this.serverFilter = string.Empty;
+        searchBarComponent?.ClearFilter();
     }
 
     private void HandelSearchServer(string serverName)
     {
         serverFilter = serverName;
+        cityListComponent?.ClearSelection();
     }
 }

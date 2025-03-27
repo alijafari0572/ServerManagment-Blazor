@@ -10,6 +10,28 @@
        &nbsp;
     <a href="/servers/@sr.Id" class="btn btn-link">Edit</a>
     &nbsp;
+    @if (sr.IsOnline)
+    {
+        <button class="btn btn-outline-danger" type="button" @onclick="@(() => { sr.IsOnline = false; })">
+            Turn Off
+        </button>
+    }
+    else
+    {
+        <button class="btn btn-outline-success" type="button" @onclick="@(() => { sr.IsOnline = true; })">
+            Turn On
+        </button>
+    }
+    @if (sr.IsOnline)
+    {
+        Random random = new Random();
+        int randomNumber = random.Next(0, 500);
+        <text>@randomNumber</text>
+    }
+    else
+    {
+        <text>N/A</text>
+    }
     <EditForm Model="sr" FormName="@($"{sr.Id}")" OnValidSubmit="@(() => { DeleteServer(@sr.Id); })">
         <button class="btn btn-danger" type="submit">Delete</button>
     </EditForm>
@@ -18,8 +40,7 @@
         @sr.Name in the @sr.City @(sr.IsOnline ? "online" : "offline")
     </div> *@
     <br />
-    @* <button class="btn btn-primary" type="button" @onclick="Changestatus">Turn On/Off</button> *@
-
+     
 </li>
 @code {
 
