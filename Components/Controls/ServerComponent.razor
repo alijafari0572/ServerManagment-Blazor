@@ -2,7 +2,7 @@
 
 
 
-<li>
+<li style="background-color:@GetBackGroundColor()">
     @sr.Name in @sr.City is
         <span style = "color: @((sr.IsOnline ? "green" : "red"))" >
        @(sr.IsOnline ? "online" : "offline")
@@ -35,7 +35,6 @@
     <EditForm Model="sr" FormName="@($"{sr.Id}")" OnValidSubmit="@(() => { DeleteServer(@sr.Id); })">
         <button class="btn btn-danger" type="submit">Delete</button>
     </EditForm>
-
 @*     <div style="color: @(sr.IsOnline ? "green" : "red")">
         @sr.Name in the @sr.City @(sr.IsOnline ? "online" : "offline")
     </div> *@
@@ -47,6 +46,9 @@
     [Parameter]
     public Server? sr { get; set; }
 
+    [CascadingParameter(Name = "SelectedCity")]
+    public string? SelectedCity { get; set; }
+
     //private Server? server { get; set; } = new Server { Name = "S1", City = "Neghab" };
     private void DeleteServer(int id)
     {
@@ -56,5 +58,25 @@
             _NavigationManager.NavigateTo("/servers",true);
         }
 
+    }
+
+    private string GetBackGroundColor()
+    {
+        if (SelectedCity!=null)
+        {
+            switch (SelectedCity)
+            {
+                case "Toronto": return "red";
+                case "Montreal": return "blue";
+                case "Ottawa": return "yellow";
+                case "Calgary": return "green";
+                case "Halifax": return "brown";
+                    default: return "withe";
+            }
+            
+        }
+        else
+            return "withe";
+        
     }
 }

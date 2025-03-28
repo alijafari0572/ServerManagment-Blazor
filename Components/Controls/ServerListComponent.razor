@@ -3,7 +3,7 @@
 
 @if (servers != null && this.servers.Count>0)
 {
-    <ul>
+    <ul class="list-unstyled">
         @foreach (var sr in servers)
         {
                 <ServerComponent @rendermode="InteractiveServer"  sr="sr"></ServerComponent>

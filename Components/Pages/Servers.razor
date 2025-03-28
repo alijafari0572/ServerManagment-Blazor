@@ -12,8 +12,9 @@
 <br />
 <SearchBarComponent @ref="searchBarComponent" searchServerCallBack="HandelSearchServer"></SearchBarComponent>
 <br />
+<CascadingValue Name="SelectedCity" Value="@selectedCity">
 <ServerListComponent @rendermode="InteractiveServer" CityName="@selectedCity" serverFilter="@serverFilter"></ServerListComponent>
-
+</CascadingValue>
 @code {
 
     private string selectedCity = "Toronto";
